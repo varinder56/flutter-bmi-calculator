@@ -83,6 +83,12 @@ I used a simple and clean BMI Calculator by
 🌿 Sunshine Foundations  
 
 It really helped me understand my health better.
+
+
+
+
+🔗
+https://github.com/varinder56/flutter-bmi-calculator
  ''';
     Share.share(msg);
   }
