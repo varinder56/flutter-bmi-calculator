@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green[50]!),
       ),
-      home: const BmiMainPage(title: 'BMI Calculator'),
+      home: const BmiMainPage(title: 'Sunshine BMI Calculator'),
     );
   }
 }
