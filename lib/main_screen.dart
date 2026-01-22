@@ -1,3 +1,4 @@
+import 'package:bmi_var/hero_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -188,16 +189,27 @@ https://github.com/varinder56/flutter-bmi-calculator
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: isAppStartfirstTime == true
-                      ? Container(
-                          width: 300,
-                          height: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                "assets/images/sunshineLogo.png",
+                      ? InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BannerPage(),
+                            ),
+                          ),
+                          child: Hero(
+                            tag: 'sun',
+                            child: Container(
+                              width: 300,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    "assets/images/sunshineLogo.png",
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              fit: BoxFit.cover,
                             ),
                           ),
                         )
