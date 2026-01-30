@@ -90,101 +90,99 @@ https://github.com/varinder56/flutter-bmi-calculator
             colors: [Color.fromARGB(255, 211, 254, 246), Colors.white],
           ),
         ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 80, bottom: 40),
-                child: Text(
-                  "BMI Calculator",
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Card(
-                child: SizedBox(
-                  width: 300,
 
-                  child: TextField(
-                    controller: _heightController,
-                    focusNode: _heightNode,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            bool isWide = MediaQuery.of(context).size.width > 600;
+            Widget titleBloc = Text(
+              "BMI Calculator",
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            );
+            Widget calculationBloc = Column(
+              children: [
+                Card(
+                  child: SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: _heightController,
+                      focusNode: _heightNode,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Height (cm)",
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: "Height (cm)",
-                      filled: true,
-                      fillColor: Colors.white,
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                 ),
-              ),
-              SizedBox(height: 25),
-              Card(
-                child: SizedBox(
-                  width: 300,
+                SizedBox(height: 25),
+                Card(
+                  child: SizedBox(
+                    width: 300,
 
-                  child: TextField(
-                    controller: _weightController,
-                    focusNode: _weightNode,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                    child: TextField(
+                      controller: _weightController,
+                      focusNode: _weightNode,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        labelText: "Weight (Kg)",
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      labelText: "Weight (Kg)",
-                      filled: true,
-                      fillColor: Colors.white,
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 45),
-                child: SizedBox(
-                  width: 220,
-                  height: 60,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      calc();
-                      FocusScope.of(context).unfocus();
-                      isAppStartfirstTime = false;
-                    },
+                Padding(
+                  padding: const EdgeInsets.only(top: 45),
+                  child: SizedBox(
+                    width: 220,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        calc();
+                        FocusScope.of(context).unfocus();
+                        isAppStartfirstTime = false;
+                      },
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      elevation: 3,
-                      /* shape: RoundedRectangleBorder(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        elevation: 3,
+                        /* shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ), */
-                    ),
-                    child: Text(
-                      "Calculate BMI",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      ),
+                      child: Text(
+                        "Calculate BMI",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 45),
-                child: Card(
+              ],
+            );
+            Widget resultBloc = Column(
+              children: [
+                Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -242,12 +240,50 @@ https://github.com/varinder56/flutter-bmi-calculator
                           ),
                         ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+
+            if (isWide) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: calculationBloc,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [titleBloc, resultBloc],
+                  ),
+                ],
+              );
+            } else {
+              return SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 80, bottom: 40),
+                      child: titleBloc,
+                    ),
+                    calculationBloc,
+                    Padding(
+                      padding: EdgeInsets.only(top: 45),
+                      child: resultBloc,
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
         ),
       ),
-      /*  bottomNavigationBar: BottomNavigationBar(
+
+      /* 
+      
+       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
         selectedItemColor: Colors.blue,
@@ -257,7 +293,10 @@ https://github.com/varinder56/flutter-bmi-calculator
           BottomNavigationBarItem(label: "Share", icon: Icon(Icons.share)),
           BottomNavigationBarItem(label: "History", icon: Icon(Icons.history)),
         ],
-      ), */
+      ),
+      
+      
+       */
       bottomNavigationBar: Card(
         margin: EdgeInsets.all(0),
         elevation: 50,
