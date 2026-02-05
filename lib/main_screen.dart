@@ -4,6 +4,8 @@ import 'package:share_plus/share_plus.dart';
 
 enum HeightUnit { cm, feetInch, meter }
 
+enum WeightUnit { kg, lb }
+
 class BmiMainPage extends StatefulWidget {
   const BmiMainPage({super.key});
 
@@ -13,6 +15,7 @@ class BmiMainPage extends StatefulWidget {
 
 class _BmiMainPageState extends State<BmiMainPage> {
   HeightUnit _heightUnit = HeightUnit.cm;
+  WeightUnit _weightUnit = WeightUnit.kg;
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final FocusNode _heightNode = FocusNode();
@@ -28,8 +31,22 @@ class _BmiMainPageState extends State<BmiMainPage> {
     }
 
     setState(() {
-      double h = double.parse(_heightController.text) / 100;
-      double w = double.parse(_weightController.text);
+      double hi = double.parse(_heightController.text);
+      double h;
+      if (_heightUnit == HeightUnit.cm) {
+        h = hi / 100;
+      } else if (_heightUnit == HeightUnit.feetInch) {
+        h = hi * 0.3048;
+      } else {
+        h = hi;
+      }
+      double wi = double.parse(_weightController.text);
+      double w;
+      if (_weightUnit == WeightUnit.lb) {
+        w = wi * 0.453592;
+      } else {
+        w = wi;
+      }
       result = w / (h * h);
       bmiStatus = result < 18.5
           ? "Underweight"
@@ -106,48 +123,47 @@ https://github.com/varinder56/flutter-bmi-calculator
                 Card(
                   child: SizedBox(
                     width: 300,
-                    child: Row(
-                      children: [
-                        TextField(
-                          controller: _heightController,
-                          focusNode: _heightNode,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelText: "Height (cm)",
-                            filled: true,
-                            fillColor: Colors.white,
+                    child: TextField(
+                      controller: _heightController,
+                      focusNode: _heightNode,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Height ",
+                        filled: true,
+                        fillColor: Colors.white,
+                        suffixIcon: DropdownButtonHideUnderline(
+                          child: DropdownButton<HeightUnit>(
+                            value: _heightUnit,
+                            items: [
+                              DropdownMenuItem(
+                                value: HeightUnit.cm,
+                                child: Text("cm"),
+                              ),
+                              DropdownMenuItem(
+                                value: HeightUnit.feetInch,
+                                child: Text("ft"),
+                              ),
+                              DropdownMenuItem(
+                                value: HeightUnit.meter,
+                                child: Text("m"),
+                              ),
+                            ],
+                            onChanged: (v) {
+                              setState(() {
+                                _heightUnit = v!;
+                              });
+                            },
                           ),
-                          keyboardType: TextInputType.number,
                         ),
-                        DropdownButton<HeightUnit>(
-                          items: [
-                            DropdownMenuItem(
-                              value: HeightUnit.cm,
-                              child: Text("cm"),
-                            ),
-                            DropdownMenuItem(
-                              value: HeightUnit.feetInch,
-                              child: Text("ft"),
-                            ),
-                            DropdownMenuItem(
-                              value: HeightUnit.meter,
-                              child: Text("m"),
-                            ),
-                          ],
-                          onChanged: (v) {
-                            setState(() {
-                              _heightUnit = v!;
-                            });
-                          },
-                        ),
-                      ],
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ),
@@ -155,7 +171,6 @@ https://github.com/varinder56/flutter-bmi-calculator
                 Card(
                   child: SizedBox(
                     width: 300,
-
                     child: TextField(
                       controller: _weightController,
                       focusNode: _weightNode,
@@ -168,9 +183,29 @@ https://github.com/varinder56/flutter-bmi-calculator
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
-                        labelText: "Weight (Kg)",
+                        labelText: "Weight ",
                         filled: true,
                         fillColor: Colors.white,
+                        suffixIcon: DropdownButtonHideUnderline(
+                          child: DropdownButton<WeightUnit>(
+                            value: _weightUnit,
+                            items: [
+                              DropdownMenuItem(
+                                value: WeightUnit.kg,
+                                child: Text("Kg"),
+                              ),
+                              DropdownMenuItem(
+                                value: WeightUnit.lb,
+                                child: Text("lb"),
+                              ),
+                            ],
+                            onChanged: (v) {
+                              setState(() {
+                                _weightUnit = v!;
+                              });
+                            },
+                          ),
+                        ),
                       ),
                       keyboardType: TextInputType.number,
                     ),
