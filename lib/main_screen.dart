@@ -2,6 +2,8 @@ import 'package:bmi_var/hero_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+enum HeightUnit { cm, feetInch, meter }
+
 class BmiMainPage extends StatefulWidget {
   const BmiMainPage({super.key});
 
@@ -10,6 +12,7 @@ class BmiMainPage extends StatefulWidget {
 }
 
 class _BmiMainPageState extends State<BmiMainPage> {
+  HeightUnit _heightUnit = HeightUnit.cm;
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final FocusNode _heightNode = FocusNode();
@@ -103,23 +106,48 @@ https://github.com/varinder56/flutter-bmi-calculator
                 Card(
                   child: SizedBox(
                     width: 300,
-                    child: TextField(
-                      controller: _heightController,
-                      focusNode: _heightNode,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
+                    child: Row(
+                      children: [
+                        TextField(
+                          controller: _heightController,
+                          focusNode: _heightNode,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: "Height (cm)",
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          keyboardType: TextInputType.number,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
+                        DropdownButton<HeightUnit>(
+                          items: [
+                            DropdownMenuItem(
+                              value: HeightUnit.cm,
+                              child: Text("cm"),
+                            ),
+                            DropdownMenuItem(
+                              value: HeightUnit.feetInch,
+                              child: Text("ft"),
+                            ),
+                            DropdownMenuItem(
+                              value: HeightUnit.meter,
+                              child: Text("m"),
+                            ),
+                          ],
+                          onChanged: (v) {
+                            setState(() {
+                              _heightUnit = v!;
+                            });
+                          },
                         ),
-                        labelText: "Height (cm)",
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      keyboardType: TextInputType.number,
+                      ],
                     ),
                   ),
                 ),
